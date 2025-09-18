@@ -9,3 +9,8 @@ export async function getOrm() {
   }
   return orm;
 }
+
+export async function getEntityManager() {
+  const orm = await getOrm();
+  return orm.em;
+}

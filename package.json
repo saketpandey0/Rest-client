@@ -11,6 +11,7 @@
   "dependencies": {
     "@mikro-orm/core": "^6.5.3",
     "@mikro-orm/postgresql": "^6.5.3",
+    "axios": "^1.12.2",
     "next": "15.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0"

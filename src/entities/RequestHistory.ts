@@ -13,23 +13,29 @@ export class RequestHistory {
   url!: string;
 
   @Property({ type: "text", nullable: true })
-  requestHeaders?: string;
+  headers?: string;
 
   @Property({ type: "text", nullable: true })
-  requestBody?: string;
+  body?: string | null;
 
   @Property()
-  status!: number;
+  statusCode!: number;
 
   @Property({ type: "text", nullable: true })
-  responseHeaders?: string;
+  response?: string;
 
-  @Property({ type: "text", nullable: true })
-  responseBody?: string;
+//   @Property({ type: "text", nullable: true })
+//   responseBody?: string;
 
   @Property()
-  durationMs!: number;
+  responseTime!: number;
+
+  @Property()
+  timestamp!: Date;
 
   @Property()
   createdAt: Date = new Date();
+
+  @Property({ onUpdate: () => new Date() })
+  updatedAt: Date = new Date();
 }
