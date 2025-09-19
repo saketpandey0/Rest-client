@@ -1,4 +1,3 @@
-// components/RequestClient.tsx
 'use client';
 
 import React, { useState } from 'react';
@@ -14,13 +13,11 @@ export default function RequestClient() {
 
   const handleResponse = (response: HttpResponse) => {
     setCurrentResponse(response);
-    // Trigger history refresh when a new request is made
     setHistoryRefresh(prev => prev + 1);
   };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      {/* Left Column - Request Form and Response */}
       <div className="space-y-8">
         <RequestForm
           onResponse={handleResponse}
@@ -30,7 +27,6 @@ export default function RequestClient() {
         <ResponseDisplay response={currentResponse} />
       </div>
 
-      {/* Right Column - Request History */}
       <div>
         <RequestHistory refreshTrigger={historyRefresh} />
       </div>

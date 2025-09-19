@@ -1,76 +1,75 @@
-'use client';
+"use client";
 
 import React, { useState } from "react";
 import { HttpRequest, HttpResponse } from "../types";
 
 interface RequestFormProps {
-  onResponse: (response: HttpResponse) => void;
-  loading: boolean;
-  setLoading: (loading: boolean) => void;
+    onResponse: (response: HttpResponse) => void;
+    loading: boolean;
+    setLoading: (loading: boolean) => void;
 }
 
 const RequestForm: React.FC<RequestFormProps> = ({
-  onResponse,
-  loading,
-  setLoading,
+    onResponse,
+    loading,
+    setLoading,
 }) => {
-  const [request, setRequest] = useState<HttpRequest>({
-    method: "GET",
-    url: "",
-    headers: {},
-    body: "",
-  });
+    const [request, setRequest] = useState<HttpRequest>({
+        method: "GET",
+        url: "",
+        headers: {},
+        body: "",
+    });
 
-  const [headersText, setHeadersText] = useState("");
-  const [error, setError] = useState<string | null>(null);
+    const [headersText, setHeadersText] = useState("");
+    const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
 
-    try {
-      // Parse headers from text
-      let parsedHeaders: Record<string, string> = {};
-      if (headersText.trim()) {
         try {
-          const headerLines = headersText
-            .split("\n")
-            .filter((line) => line.trim());
-          for (const line of headerLines) {
-            const [key, ...valueParts] = line.split(":");
-            if (key && valueParts.length > 0) {
-              parsedHeaders[key.trim()] = valueParts.join(":").trim();
+            let parsedHeaders: Record<string, string> = {};
+            if (headersText.trim()) {
+                try {
+                    const headerLines = headersText
+                        .split("\n")
+                        .filter((line) => line.trim());
+                    for (const line of headerLines) {
+                        const [key, ...valueParts] = line.split(":");
+                        if (key && valueParts.length > 0) {
+                            parsedHeaders[key.trim()] = valueParts.join(":").trim();
+                        }
+                    }
+                } catch (err) {
+                    throw new Error(
+                        'Invalid headers format. Use "Key: Value" format, one per line.'
+                    );
+                }
             }
-          }
+
+            const requestData: HttpRequest = {
+                ...request,
+                headers: parsedHeaders,
+            };
+
+            const response = await fetch("/api/request", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify(requestData),
+            });
+
+            const result: HttpResponse = await response.json();
+            onResponse(result);
         } catch (err) {
-          throw new Error(
-            'Invalid headers format. Use "Key: Value" format, one per line.'
-          );
+            setError(err instanceof Error ? err.message : "Request failed");
+        } finally {
+            setLoading(false);
         }
-      }
-
-      const requestData: HttpRequest = {
-        ...request,
-        headers: parsedHeaders,
-      };
-
-      const response = await fetch("/api/request", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
-
-      const result: HttpResponse = await response.json();
-      onResponse(result);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Request failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
@@ -78,24 +77,24 @@ const RequestForm: React.FC<RequestFormProps> = ({
 
         {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
+                {error}
             </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex gap-4">
-            <select
-                value={request.method}
-                onChange={(e) =>
-                setRequest({ ...request, method: e.target.value as any })
-                }
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-                <option value="GET">GET</option>
-                <option value="POST">POST</option>
-                <option value="PUT">PUT</option>
-                <option value="DELETE">DELETE</option>
-            </select>
+                <select
+                    value={request.method}
+                    onChange={(e) =>
+                        setRequest({ ...request, method: e.target.value as any })
+                    }
+                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                    <option value="PUT">PUT</option>
+                    <option value="DELETE">DELETE</option>
+                </select>
 
                 <input
                     type="url"

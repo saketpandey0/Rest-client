@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         method: method.toLowerCase(),
         url,
         headers,
-        timeout: 30000, 
+        timeout: 30000,
       };
 
       if (body && (method === 'POST' || method === 'PUT')) {
@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
       axiosResponse = await axios(axiosConfig);
-      
+
       response = {
         status: axiosResponse.status,
         statusText: axiosResponse.statusText,
@@ -45,7 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     } catch (error) {
       const axiosError = error as AxiosError;
-      
+
       response = {
         status: axiosError.response?.status || 0,
         statusText: axiosError.response?.statusText || 'Request Failed',
@@ -58,7 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
       const em = await getEntityManager();
-      
+
       const requestHistory = new RequestHistory();
       requestHistory.method = method;
       requestHistory.url = url;
@@ -81,7 +81,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   } catch (error) {
     console.error('Request handler error:', error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       error: 'Internal server error',
       message: error instanceof Error ? error.message : 'Unknown error'
     });

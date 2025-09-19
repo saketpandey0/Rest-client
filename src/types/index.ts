@@ -1,9 +1,6 @@
 import { AxiosResponseHeaders } from "axios";
 
 
-
-
-
 export interface HttpRequest {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
   url: string;
