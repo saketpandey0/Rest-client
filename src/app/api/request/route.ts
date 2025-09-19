@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios, { AxiosError, AxiosResponseHeaders } from 'axios';
-import { getEntityManager } from '../../lib/mickro';
-import { RequestHistory } from '../../entities/RequestHistory';
-import { HttpRequest, HttpResponse } from '../../types';
+import { getEntityManager } from '../../../lib/mickro';
+import { RequestHistory } from '../../../entities/RequestHistory';
+import { HttpRequest, HttpResponse } from '../../../types';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {

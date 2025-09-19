@@ -21,14 +21,15 @@ export interface RequestHistoryItem {
   id: number;
   method: string;
   url: string;
-  headers?: string;
-  body?: string;
-  response?: string;
+  headers?: any;
+  body?: any;
+  response?: any;
   statusCode: number;
   responseTime: number;
   timestamp: Date;
   createdAt: Date;
 }
+
 
 export interface PaginatedResponse<T> {
   data: T[];

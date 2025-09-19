@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import RequestForm from './RequestForm';
-import ResponseDisplay from './Response';
+import ResponseDisplay from './ResponseDisplay';
 import RequestHistory from './RequestHistory';
 import { HttpResponse } from '../types';
 
