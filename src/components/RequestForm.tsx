@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { HttpRequest, HttpResponse } from "../types";
+import axios from "axios";
 
 interface RequestFormProps {
     onResponse: (response: HttpResponse) => void;
@@ -54,15 +55,11 @@ const RequestForm: React.FC<RequestFormProps> = ({
                 headers: parsedHeaders,
             };
 
-            const response = await fetch("/api/request", {
-                method: "POST",
-                headers: {
-                "Content-Type": "application/json",
-                },
-                body: JSON.stringify(requestData),
+            const response = await axios.post<HttpResponse>("/api/request", requestData, {
+                headers: {"Content-Type": "application/json"},
             });
 
-            const result: HttpResponse = await response.json();
+            const result: HttpResponse = response.data;
             onResponse(result);
         } catch (err) {
             setError(err instanceof Error ? err.message : "Request failed");

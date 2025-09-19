@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { RequestHistoryItem, PaginatedResponse } from '../types';
+import axios from 'axios';
 
 interface RequestHistoryProps {
   refreshTrigger: number;
@@ -25,9 +26,8 @@ const RequestHistory: React.FC<RequestHistoryProps> = ({ refreshTrigger }) => {
                 ...(method && { method }),
             });
 
-            const response = await fetch(`/api/history?${params}`);
-            const data: PaginatedResponse<RequestHistoryItem> = await response.json();
-            setHistory(data);
+            const response = await axios.get<PaginatedResponse<RequestHistoryItem>>("/api/history",{ params });
+            setHistory(response.data);
             setCurrentPage(page);
         } catch (error) {
             console.error('Failed to fetch history:', error);
@@ -88,32 +88,32 @@ const RequestHistory: React.FC<RequestHistoryProps> = ({ refreshTrigger }) => {
             <h2 className="text-xl font-bold mb-4">Request History</h2>
             
             <div className="flex gap-4 mb-4">
-            <input
-                type="text"
-                placeholder="Search URLs..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            
-            <select
-                value={methodFilter}
-                onChange={(e) => setMethodFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-                <option value="">All Methods</option>
-                <option value="GET">GET</option>
-                <option value="POST">POST</option>
-                <option value="PUT">PUT</option>
-                <option value="DELETE">DELETE</option>
-            </select>
-            
-            <button
-                onClick={handleSearch}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-                Search
-            </button>
+                <input
+                    type="text"
+                    placeholder="Search URLs..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                
+                <select
+                    value={methodFilter}
+                    onChange={(e) => setMethodFilter(e.target.value)}
+                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    <option value="">All Methods</option>
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                    <option value="PUT">PUT</option>
+                    <option value="DELETE">DELETE</option>
+                </select>
+                
+                <button
+                    onClick={handleSearch}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    Search
+                </button>
             </div>
         </div>
 

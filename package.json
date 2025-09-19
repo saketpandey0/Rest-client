@@ -9,15 +9,20 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@mikro-orm/core": "^6.5.3",
-    "@mikro-orm/postgresql": "^6.5.3",
+    "@mikro-orm/core": "^6.5.4",
+    "@mikro-orm/postgresql": "^6.5.4",
+    "ajv": "^8.17.1",
+    "ajv-draft-04": "^1.0.0",
     "axios": "^1.12.2",
     "next": "15.5.3",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@mikro-orm/cli": "^6.5.4",
+    "@mikro-orm/migrations": "^6.5.4",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^24.5.2",
     "@types/react": "^19",
@@ -25,6 +30,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
   }
 }

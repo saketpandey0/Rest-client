@@ -1,5 +1,8 @@
 import { defineConfig } from "@mikro-orm/postgresql";
 import { RequestHistory } from "./src/entities/RequestHistory";
+import { Migrator } from '@mikro-orm/migrations'; 
+
+
 
 export default defineConfig({
   entities: [RequestHistory],
@@ -9,4 +12,5 @@ export default defineConfig({
   host: process.env.DATABASE_HOST || "localhost",
   port: +(process.env.DATABASE_PORT || 5432),
   debug: true,
+  extensions: [Migrator],
 });
